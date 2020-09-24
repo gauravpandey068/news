@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block content %}
+    <div class="col-8">
+        <div class="align-center">
+            <h3><i class="fa fa-newspaper-o" aria-hidden="true"></i>&nbsp;<u>{{ category.name }}</u>&nbsp;<i
+                    class="fa fa-newspaper-o" aria-hidden="true"></i>&nbsp;</h3>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                {% for post in page_obj %}
+                    <div class="card card-custom" style="width: 18rem;">
+                        <a href="{% url 'post-detail' post.slug %}">
+                            <img src="{{ post.image.url }}" class="card-img-top">
+                            <div class="card-body">
+                                <p class="card-text">{{ post.title }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="pagination d-flex justify-content-between">
+            <span>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">
+            <button type="button"
+                    class="btn btn-secondary">Previous</button></a>
+
+            {% endif %}
+            </span>
+                <span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+            <button type="button"
+                    class="btn btn-secondary">Next</button></a>
+            {% endif %}
+            </span>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

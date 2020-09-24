@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- meta tags end -->
+    <!-- css links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!-- css links ends -->
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<!--header -->
+<header>
+    <div class="container">
+        <div class="container-fluid">
+            <div class="row header-top-row">
+                <div class="header-copy">
+                    <a href="{% url 'home' %}"><h1 class="logo">HELLO DAIRIES</h1></a>
+                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>&nbsp;<i class="fa fa-newspaper-o"
+                                                                                 aria-hidden="true"></i>&nbsp;<span
+                        class="tagline">NEWSPAPER / MAGAZINE / PUBLISHER</span>&nbsp;<i class="fa fa-newspaper-o"
+                                                                                        aria-hidden="true"></i>&nbsp;<i
+                        class="fa fa-newspaper-o" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- .... -->
+
+<!-- nav bar start -->
+<div class="container-fluid" id="fixed-navbar">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg bg-navbar border-bottom border-dark">
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home </a>
+                </li>
+                {% for category in categories %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'list' category.id %}">{{ category.name }} </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="row-headline">
+            {% for post in tops|slice:'4' %}
+                <div class="" style="max-width: 300px;">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <a href="{% url 'post-detail' post.slug %}"><img src="{{ post.image.url }}" class="card-img" alt="..."></a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <a href="{% url 'post-detail' post.slug %}">
+                                    <h8 class="card-title">{{ post.title|slice:'40' }}</h8>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- news content-->
+
+        <div class="container-fluid ">
+            <div class="container">
+                <div class="grid-container">
+                    <div class="row">
+                        {% block content %}
+
+                        {% endblock %}
+
+                        <!-- trending news -->
+                        <div class="col-4 ">
+                            <h5 class="post-type ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRENDING &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                POST&nbsp;</h5>
+                            <hr>
+                            {% for post in trendings|slice:'8'%}
+                                <div class="card mb-3 no-border" style="max-width: 540px;">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            <a href="{% url 'post-detail' post.slug %}"><img src="{{ post.image.url}}" class="card-img"
+                                                                          alt="..."></a>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <a href="{% url 'post-detail' post.slug %}">
+                                                    <h5 class="card-title">{{ post.title}}</h5>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer>
+        <div class="container-fluid ">
+            <div class="container">
+                <hr style="height:3px;border:none;color:#333;background-color:#333;"/>
+                <div class="col-12 col-md-12 bottom-logo">
+                    <h1 class="logo"><a href="{% url 'home' %}">HELLO DAIRIES</a></h1>
+                    <div class="tagline social bottom-social">
+                        <ul>
+                            <li class="bottom-social-item facebook"><a href="https://www.facebook.com"><i
+                                    class="fa fa-facebook"></i></a></li>
+                            <li class="bottom-social-item twitter"><a href="https://www.twitter.com"><i
+                                    class="fa fa-twitter"></i></a></li>
+                            <li class="bottom-social-item instagram"><a href="https://www.instagram.com"><i
+                                    class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 copyright">
+                    <p class="pl-5">Copyright &copy;
+                        <script>document.write(new Date().getFullYear())</script>
+                        Gaurav Pandey All Rights Reserved
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- script links -->
+    <script>
+        window.onscroll = function () {
+            myFunction()
+        };
+
+        var header = document.getElementById("fixed-navbar");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+        }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+</body>
+</html>
